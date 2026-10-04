@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt hàng thành công</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>WEBSITE BÁN HÀNG ĐIỆN TỬ</h1>
+
+    <nav>
+        <a href="/">Trang chủ</a>
+        <a href="/products">Sản phẩm</a>
+        <a href="/cart">Giỏ hàng</a>
+    </nav>
+</header>
+
+<main>
+
+    <h2>Đặt hàng thành công!</h2>
+
+    <p>
+        Cảm ơn <strong><%= order.name %></strong> đã mua hàng.
+    </p>
+
+    <h3>Thông tin nhận hàng</h3>
+
+    <p>
+        Họ và tên:
+        <strong><%= order.name %></strong>
+    </p>
+
+    <p>
+        Số điện thoại:
+        <strong><%= order.phone %></strong>
+    </p>
+
+    <p>
+        Địa chỉ:
+        <strong><%= order.address %></strong>
+    </p>
+
+    <h3>Sản phẩm đã đặt</h3>
+
+    <% order.cart.forEach(item => { %>
+
+        <div class="product">
+
+            <h4>
+                <%= item.name %>
+            </h4>
+
+            <p>
+                Số lượng:
+                <%= item.quantity %>
+            </p>
+
+            <p>
+                Đơn giá:
+                <%= item.price.toLocaleString("vi-VN") %> VNĐ
+            </p>
+
+        </div>
+
+    <% }) %>
+
+    <h2>
+        Tổng tiền:
+        <strong>
+            <%= order.total.toLocaleString("vi-VN") %> VNĐ
+        </strong>
+    </h2>
+
+    <br>
+
+    <a href="/products">
+        Tiếp tục mua hàng
+    </a>
+
+</main>
+
+<footer>
+    <p>Website bán hàng điện tử</p>
+</footer>
+
+</body>
+</html>

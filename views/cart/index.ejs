@@ -51,18 +51,31 @@
 
                 <p>
                     Số lượng:
-                    <strong><%= item.quantity %></strong>
+                    <strong>
+                        <%= item.quantity %>
+                    </strong>
                 </p>
 
-                <form action="/cart/decrease/<%= item.id %>" method="POST" style="display:inline;">
+                <form
+                    action="/cart/decrease/<%= item.id %>"
+                    method="POST"
+                    style="display:inline;"
+                >
                     <button type="submit">−</button>
                 </form>
 
-                <form action="/cart/increase/<%= item.id %>" method="POST" style="display:inline;">
+                <form
+                    action="/cart/increase/<%= item.id %>"
+                    method="POST"
+                    style="display:inline;"
+                >
                     <button type="submit">+</button>
                 </form>
 
-                <form action="/cart/remove/<%= item.id %>" method="POST">
+                <form
+                    action="/cart/remove/<%= item.id %>"
+                    method="POST"
+                >
                     <button type="submit">
                         Xóa sản phẩm
                     </button>
@@ -79,8 +92,18 @@
             </strong>
         </h2>
 
+        <br>
+
         <a href="/products">
             Tiếp tục mua hàng
+        </a>
+
+        <br><br>
+
+        <a href="/orders/checkout">
+            <button type="button">
+                Thanh toán
+            </button>
         </a>
 
     <% } %>

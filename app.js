@@ -8,6 +8,7 @@ const PORT = 3000;
 const productRoutes = require("./routes/productRoutes");
 const authRoutes = require("./routes/authRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -30,7 +31,8 @@ app.get("/", (req, res) => {
 app.use("/products", productRoutes);
 app.use("/auth", authRoutes);
 app.use("/cart", cartRoutes);
+app.use("/orders", orderRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server đang chạy tại http://localhost:${PORT}`);
-}); 
+});
