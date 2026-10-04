@@ -39,7 +39,8 @@ router.get("/", (req, res) => {
 
     res.render("cart/index", {
         cart: cart,
-        total: total
+        total: total,
+        sessionUser: req.session.user
     });
 });
 

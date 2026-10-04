@@ -1,78 +1,440 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi tiết sản phẩm</title>
+
+    <title>
+        <%= product ? product.name : "Sản phẩm" %> - TECHSTORE
+    </title>
+
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
 <header>
-    <h1>WEBSITE BÁN HÀNG ĐIỆN TỬ</h1>
 
-    <nav>
-        <a href="/">Trang chủ</a>
-        <a href="/products">Sản phẩm</a>
-        <a href="/cart">Giỏ hàng</a>
-        <a href="/auth/login">Đăng nhập</a>
-    </nav>
+    <div class="header-inner">
+
+        <a href="/" class="logo">
+            TECHSTORE
+        </a>
+
+        <nav>
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <a href="/products">
+                Sản phẩm
+            </a>
+
+            <a href="/cart">
+                Giỏ hàng
+            </a>
+
+            <% if (sessionUser) { %>
+
+                <a href="/auth/profile">
+                    Tài khoản
+                </a>
+
+                <a href="/orders/history">
+                    Đơn hàng
+                </a>
+
+                <a href="/auth/logout">
+                    Đăng xuất
+                </a>
+
+            <% } else { %>
+
+                <a href="/auth/login">
+                    Đăng nhập
+                </a>
+
+                <a href="/auth/register">
+                    Đăng ký
+                </a>
+
+            <% } %>
+
+        </nav>
+
+    </div>
+
 </header>
+
 
 <main>
 
-    <h2>Chi tiết sản phẩm</h2>
+    <% if (!product) { %>
 
-    <% if (product) { %>
+        <section class="products">
 
-        <div class="product">
+            <div class="empty-detail">
 
-            <div class="product-image">
-                Hình sản phẩm
+                <div class="empty-icon">
+                    !
+                </div>
+
+                <h2>
+                    Không tìm thấy sản phẩm
+                </h2>
+
+                <p>
+                    Sản phẩm bạn đang tìm kiếm không tồn tại.
+                </p>
+
+                <a
+                    href="/products"
+                    class="detail-back-button"
+                >
+                    Quay lại sản phẩm
+                </a>
+
             </div>
 
-            <h3>
-                <%= product.name %>
-            </h3>
-
-            <p>
-                <%= product.description %>
-            </p>
-
-            <strong>
-                <%= product.price %>
-            </strong>
-
-            <br><br>
-
-            <form action="/cart/add" method="POST">
-
-                <input
-                    type="hidden"
-                    name="productId"
-                    value="<%= product.id %>"
-                >
-
-                <button type="submit">
-                    Thêm vào giỏ hàng
-                </button>
-
-            </form>
-
-        </div>
+        </section>
 
     <% } else { %>
 
-        <p>Không tìm thấy sản phẩm.</p>
+
+        <div class="detail-breadcrumb">
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <span>›</span>
+
+            <a href="/products">
+                Sản phẩm
+            </a>
+
+            <span>›</span>
+
+            <strong>
+                <%= product.name %>
+            </strong>
+
+        </div>
+
+
+        <section class="product-detail">
+
+
+            <div class="detail-image">
+
+                <span class="detail-badge">
+                    SẢN PHẨM NỔI BẬT
+                </span>
+
+                <div class="detail-image-box">
+
+                    <img
+                        src="<%= product.image %>"
+                        alt="<%= product.name %>"
+                    >
+
+                </div>
+
+                <div class="image-glow"></div>
+
+            </div>
+
+
+            <div class="detail-content">
+
+                <span class="detail-category">
+                    <%= product.category %>
+                </span>
+
+
+                <h2>
+                    <%= product.name %>
+                </h2>
+
+
+                <div class="detail-rating">
+
+                    <span class="stars">
+                        ★★★★★
+                    </span>
+
+                    <span class="rating-text">
+                        4.9/5 · 128 đánh giá
+                    </span>
+
+                </div>
+
+
+                <div class="detail-price">
+                    <%= product.price %>
+                </div>
+
+
+                <p class="detail-description">
+                    <%= product.description %>
+                </p>
+
+
+                <div class="detail-line"></div>
+
+
+                <div class="detail-features">
+
+
+                    <div class="detail-feature-card">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Chính hãng
+                            </strong>
+
+                            <span>
+                                Sản phẩm chính hãng
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-feature-card">
+
+                        <div class="feature-icon">
+                            ♧
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Bảo hành
+                            </strong>
+
+                            <span>
+                                Hỗ trợ bảo hành tận tâm
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-feature-card">
+
+                        <div class="feature-icon">
+                            ⚡
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Giao hàng
+                            </strong>
+
+                            <span>
+                                Giao hàng nhanh toàn quốc
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <form
+                    action="/cart/add"
+                    method="POST"
+                    class="detail-cart-form"
+                >
+
+                    <input
+                        type="hidden"
+                        name="productId"
+                        value="<%= product.id %>"
+                    >
+
+                    <button
+                        type="submit"
+                        class="detail-cart-button"
+                    >
+                        <span>
+                            🛒
+                        </span>
+
+                        Thêm vào giỏ hàng
+                    </button>
+
+                </form>
+
+
+                <a
+                    href="/products"
+                    class="detail-back"
+                >
+                    ← Tiếp tục mua hàng
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <section class="detail-info-section">
+
+            <div class="detail-info-title">
+
+                <span class="section-label">
+                    PRODUCT INFORMATION
+                </span>
+
+                <h2>
+                    Thông tin sản phẩm
+                </h2>
+
+            </div>
+
+
+            <div class="detail-info-grid">
+
+
+                <div class="detail-info-card">
+
+                    <span>
+                        Tên sản phẩm
+                    </span>
+
+                    <strong>
+                        <%= product.name %>
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-info-card">
+
+                    <span>
+                        Danh mục
+                    </span>
+
+                    <strong>
+                        <%= product.category %>
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-info-card">
+
+                    <span>
+                        Mô tả
+                    </span>
+
+                    <strong>
+                        <%= product.description %>
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-info-card">
+
+                    <span>
+                        Tình trạng
+                    </span>
+
+                    <strong class="stock">
+                        ● Còn hàng
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <section class="detail-benefits">
+
+            <div>
+
+                <strong>
+                    🚚 Giao hàng nhanh
+                </strong>
+
+                <span>
+                    Giao hàng toàn quốc
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    🔒 Thanh toán an toàn
+                </strong>
+
+                <span>
+                    Bảo mật thông tin
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    ⭐ Sản phẩm chất lượng
+                </strong>
+
+                <span>
+                    Cam kết chính hãng
+                </span>
+
+            </div>
+
+        </section>
+
 
     <% } %>
 
 </main>
 
+
 <footer>
-    <p>Website bán hàng điện tử</p>
+
+    <div>
+
+        <h3>
+            TECHSTORE
+        </h3>
+
+        <p>
+            Cửa hàng điện tử hiện đại
+        </p>
+
+        <p>
+            Điện thoại • Laptop • Tai nghe • Loa • Phụ kiện
+        </p>
+
+    </div>
+
 </footer>
 
 </body>
+
 </html>

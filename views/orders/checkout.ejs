@@ -16,86 +16,117 @@
         <a href="/">Trang chủ</a>
         <a href="/products">Sản phẩm</a>
         <a href="/cart">Giỏ hàng</a>
-        <a href="/auth/login">Đăng nhập</a>
+
+        <% if (sessionUser) { %>
+            <a href="/auth/profile">Tài khoản</a>
+            <a href="/orders/history">Đơn hàng</a>
+            <a href="/auth/logout">Đăng xuất</a>
+        <% } else { %>
+            <a href="/auth/login">Đăng nhập</a>
+            <a href="/auth/register">Đăng ký</a>
+        <% } %>
     </nav>
 </header>
 
 <main>
 
-    <h2>Thanh toán</h2>
+    <section class="products">
 
-    <h3>Thông tin nhận hàng</h3>
+        <h2>Thanh toán</h2>
 
-    <form action="/orders/checkout" method="POST">
+        <form action="/orders/checkout" method="POST">
 
-        <label>Họ và tên</label>
+            <h3>Thông tin nhận hàng</h3>
 
-        <input
-            type="text"
-            name="name"
-            placeholder="Nhập họ và tên"
-            required
-        >
+            <br>
 
-        <br><br>
+            <label>Họ và tên</label>
 
-        <label>Số điện thoại</label>
+            <input
+                type="text"
+                name="name"
+                value="<%= sessionUser ? sessionUser.name : '' %>"
+                placeholder="Nhập họ và tên"
+                required
+            >
 
-        <input
-            type="text"
-            name="phone"
-            placeholder="Nhập số điện thoại"
-            required
-        >
+            <br><br>
 
-        <br><br>
+            <label>Số điện thoại</label>
 
-        <label>Địa chỉ</label>
+            <input
+                type="tel"
+                name="phone"
+                placeholder="Nhập số điện thoại"
+                required
+            >
 
-        <textarea
-            name="address"
-            placeholder="Nhập địa chỉ nhận hàng"
-            required
-        ></textarea>
+            <br><br>
 
-        <br><br>
+            <label>Địa chỉ nhận hàng</label>
 
-        <h3>Sản phẩm trong đơn hàng</h3>
+            <textarea
+                name="address"
+                placeholder="Nhập địa chỉ nhận hàng"
+                rows="4"
+                required
+            ></textarea>
 
-        <% cart.forEach(item => { %>
+            <br><br>
 
-            <div class="product">
+            <h3>Sản phẩm trong đơn hàng</h3>
 
-                <h4>
-                    <%= item.name %>
-                </h4>
+            <% cart.forEach(item => { %>
 
-                <p>
-                    Số lượng:
-                    <%= item.quantity %>
-                </p>
+                <div class="product">
 
-                <p>
-                    Đơn giá:
-                    <%= item.price.toLocaleString("vi-VN") %> VNĐ
-                </p>
+                    <h4>
+                        <%= item.name %>
+                    </h4>
 
-            </div>
+                    <p>
+                        Số lượng:
+                        <strong>
+                            <%= item.quantity %>
+                        </strong>
+                    </p>
 
-        <% }) %>
+                    <p>
+                        Đơn giá:
+                        <strong>
+                            <%= item.price.toLocaleString("vi-VN") %> VNĐ
+                        </strong>
+                    </p>
 
-        <h2>
-            Tổng tiền:
-            <strong>
-                <%= total.toLocaleString("vi-VN") %> VNĐ
-            </strong>
-        </h2>
+                    <p>
+                        Thành tiền:
+                        <strong>
+                            <%= (item.price * item.quantity).toLocaleString("vi-VN") %> VNĐ
+                        </strong>
+                    </p>
 
-        <button type="submit">
-            Đặt hàng
-        </button>
+                </div>
 
-    </form>
+                <br>
+
+            <% }) %>
+
+            <h2>
+                Tổng tiền:
+                <strong>
+                    <%= total.toLocaleString("vi-VN") %> VNĐ
+                </strong>
+            </h2>
+
+            <br>
+
+            <button type="submit">
+                Đặt hàng
+            </button>
+
+        </form>
+
+    </section>
 
 </main>
 

@@ -16,97 +16,148 @@
         <a href="/">Trang chủ</a>
         <a href="/products">Sản phẩm</a>
         <a href="/cart">Giỏ hàng</a>
-        <a href="/auth/login">Đăng nhập</a>
+
+        <% if (sessionUser) { %>
+
+            <a href="/auth/profile">Tài khoản</a>
+            <a href="/orders/history">Đơn hàng</a>
+            <a href="/auth/logout">Đăng xuất</a>
+
+        <% } else { %>
+
+            <a href="/auth/login">Đăng nhập</a>
+            <a href="/auth/register">Đăng ký</a>
+
+        <% } %>
     </nav>
 </header>
 
 <main>
 
-    <h2>Giỏ hàng</h2>
+    <section class="products">
 
-    <% if (cart.length === 0) { %>
+        <h2>🛒 Giỏ hàng của bạn</h2>
 
-        <p>Giỏ hàng đang trống.</p>
+        <% if (cart.length === 0) { %>
 
-        <a href="/products">
-            Tiếp tục mua hàng
-        </a>
+            <div class="product">
+                <h3>Giỏ hàng đang trống</h3>
 
-    <% } else { %>
+                <p>
+                    Bạn chưa có sản phẩm nào trong giỏ hàng.
+                </p>
 
-        <% cart.forEach(item => { %>
+                <br>
+
+                <a href="/products">
+                    Xem sản phẩm
+                </a>
+            </div>
+
+        <% } else { %>
+
+            <% cart.forEach(item => { %>
+
+                <div class="product">
+
+                    <div class="product-image">
+                        Hình sản phẩm
+                    </div>
+
+                    <h3>
+                        <%= item.name %>
+                    </h3>
+
+                    <p>
+                        Đơn giá:
+                        <strong>
+                            <%= item.price.toLocaleString("vi-VN") %> VNĐ
+                        </strong>
+                    </p>
+
+                    <p>
+                        Số lượng:
+                        <strong>
+                            <%= item.quantity %>
+                        </strong>
+                    </p>
+
+                    <p>
+                        Thành tiền:
+                        <strong>
+                            <%= (item.price * item.quantity).toLocaleString("vi-VN") %> VNĐ
+                        </strong>
+                    </p>
+
+                    <div>
+
+                        <form
+                            action="/cart/decrease/<%= item.id %>"
+                            method="POST"
+                            style="display:inline;"
+                        >
+                            <button type="submit">−</button>
+                        </form>
+
+                        <strong>
+                            <%= item.quantity %>
+                        </strong>
+
+                        <form
+                            action="/cart/increase/<%= item.id %>"
+                            method="POST"
+                            style="display:inline;"
+                        >
+                            <button type="submit">+</button>
+                        </form>
+
+                    </div>
+
+                    <br>
+
+                    <form
+                        action="/cart/remove/<%= item.id %>"
+                        method="POST"
+                    >
+                        <button type="submit">
+                            Xóa sản phẩm
+                        </button>
+                    </form>
+
+                </div>
+
+                <br>
+
+            <% }) %>
 
             <div class="product">
 
-                <h3>
-                    <%= item.name %>
-                </h3>
-
-                <p>
-                    Đơn giá:
+                <h2>
+                    Tổng tiền:
                     <strong>
-                        <%= item.price.toLocaleString("vi-VN") %> VNĐ
+                        <%= total.toLocaleString("vi-VN") %> VNĐ
                     </strong>
-                </p>
+                </h2>
 
-                <p>
-                    Số lượng:
-                    <strong>
-                        <%= item.quantity %>
-                    </strong>
-                </p>
+                <br>
 
-                <form
-                    action="/cart/decrease/<%= item.id %>"
-                    method="POST"
-                    style="display:inline;"
-                >
-                    <button type="submit">−</button>
-                </form>
+                <a href="/products">
+                    Tiếp tục mua hàng
+                </a>
 
-                <form
-                    action="/cart/increase/<%= item.id %>"
-                    method="POST"
-                    style="display:inline;"
-                >
-                    <button type="submit">+</button>
-                </form>
+                <br><br>
 
-                <form
-                    action="/cart/remove/<%= item.id %>"
-                    method="POST"
-                >
-                    <button type="submit">
-                        Xóa sản phẩm
+                <a href="/orders/checkout">
+                    <button type="button">
+                        Thanh toán
                     </button>
-                </form>
+                </a>
 
             </div>
 
-        <% }) %>
+        <% } %>
 
-        <h2>
-            Tổng tiền:
-            <strong>
-                <%= total.toLocaleString("vi-VN") %> VNĐ
-            </strong>
-        </h2>
-
-        <br>
-
-        <a href="/products">
-            Tiếp tục mua hàng
-        </a>
-
-        <br><br>
-
-        <a href="/orders/checkout">
-            <button type="button">
-                Thanh toán
-            </button>
-        </a>
-
-    <% } %>
+    </section>
 
 </main>
 

@@ -1,91 +1,354 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách sản phẩm</title>
+
+    <title>Sản phẩm - TECHSTORE</title>
+
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
 <header>
-    <h1>WEBSITE BÁN HÀNG ĐIỆN TỬ</h1>
 
-    <nav>
-        <a href="/">Trang chủ</a>
-        <a href="/products">Sản phẩm</a>
-        <a href="#">Giỏ hàng</a>
-        <a href="#">Đăng nhập</a>
-    </nav>
+    <div class="header-inner">
+
+        <a href="/" class="logo">
+            TECHSTORE
+        </a>
+
+        <nav>
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <a href="/products" class="active">
+                Sản phẩm
+            </a>
+
+            <a href="/cart">
+                🛒 Giỏ hàng
+            </a>
+
+            <% if (sessionUser) { %>
+
+                <a href="/auth/profile">
+                    👤 Tài khoản
+                </a>
+
+                <a href="/orders/history">
+                    📦 Đơn hàng
+                </a>
+
+                <a href="/auth/logout">
+                    Đăng xuất
+                </a>
+
+            <% } else { %>
+
+                <a href="/auth/login">
+                    Đăng nhập
+                </a>
+
+                <a href="/auth/register">
+                    Đăng ký
+                </a>
+
+            <% } %>
+
+        </nav>
+
+    </div>
+
 </header>
+
 
 <main>
 
-    <h2>Danh sách sản phẩm</h2>
+    <section class="products-page">
 
-    <form action="/products/search" method="GET">
-        <input
-            type="text"
-            name="keyword"
-            placeholder="Nhập tên sản phẩm..."
-            required
-        >
+        <div class="products-page-header">
 
-        <button type="submit">Tìm kiếm</button>
-    </form>
+            <div>
 
-    <div class="product-list">
+                <span class="section-label">
+                    TECHSTORE COLLECTION
+                </span>
 
-        <div class="product">
-            <div class="product-image">
-                Hình sản phẩm
+                <h1>
+                    Tất cả sản phẩm
+                </h1>
+
+                <p>
+                    Khám phá những sản phẩm công nghệ nổi bật
+                    dành cho bạn.
+                </p>
+
             </div>
 
-            <h3>
-                <a href="/products/1">iPhone</a>
-            </h3>
 
-            <p>Điện thoại thông minh</p>
+            <form
+                action="/products/search"
+                method="GET"
+                class="product-search"
+            >
 
-            <strong>20.000.000 VNĐ</strong>
+                <input
+                    type="text"
+                    name="keyword"
+                    placeholder="Tìm kiếm sản phẩm..."
+                >
+
+                <button type="submit">
+                    🔍
+                </button>
+
+            </form>
+
         </div>
 
-        <div class="product">
-            <div class="product-image">
-                Hình sản phẩm
-            </div>
 
-            <h3>
-                <a href="/products/2">Laptop</a>
-            </h3>
+        <div class="category-filter">
 
-            <p>Laptop phục vụ học tập và làm việc</p>
+            <a href="/products" class="category-filter-item active">
+                Tất cả
+            </a>
 
-            <strong>20.000.000 VNĐ</strong>
+            <a
+                href="/products/category/Điện thoại"
+                class="category-filter-item"
+            >
+                📱 Điện thoại
+            </a>
+
+            <a
+                href="/products/category/Laptop"
+                class="category-filter-item"
+            >
+                💻 Laptop
+            </a>
+
+            <a
+                href="/products/category/Tai nghe"
+                class="category-filter-item"
+            >
+                🎧 Tai nghe
+            </a>
+
+            <a
+                href="/products/category/Loa"
+                class="category-filter-item"
+            >
+                🔊 Loa
+            </a>
+
+            <a
+                href="/products/category/Phụ kiện"
+                class="category-filter-item"
+            >
+                🖱️ Phụ kiện
+            </a>
+
         </div>
 
-        <div class="product">
-            <div class="product-image">
-                Hình sản phẩm
+
+        <% if (!products || products.length === 0) { %>
+
+            <div class="empty-products">
+
+                <div class="empty-products-icon">
+                    🔍
+                </div>
+
+                <h2>
+                    Không tìm thấy sản phẩm
+                </h2>
+
+                <p>
+                    Hiện chưa có sản phẩm phù hợp.
+                </p>
+
+                <a
+                    href="/products"
+                    class="detail-back-button"
+                >
+                    Xem tất cả sản phẩm
+                </a>
+
             </div>
 
+        <% } else { %>
+
+
+            <div class="products-grid">
+
+                <% products.forEach(product => { %>
+
+                    <article class="product-card">
+
+
+                        <div class="product-card-image">
+
+                            <span class="product-badge">
+                                HOT
+                            </span>
+
+                            <img
+                                src="<%= product.image %>"
+                                alt="<%= product.name %>"
+                            >
+
+                        </div>
+
+
+                        <div class="product-card-content">
+
+
+                            <span class="product-category">
+                                <%= product.category %>
+                            </span>
+
+
+                            <h2>
+                                <%= product.name %>
+                            </h2>
+
+
+                            <div class="product-rating">
+
+                                <span>
+                                    ★★★★★
+                                </span>
+
+                                <small>
+                                    4.9
+                                </small>
+
+                            </div>
+
+
+                            <p>
+                                <%= product.description %>
+                            </p>
+
+
+                            <div class="product-card-bottom">
+
+
+                                <div class="product-price">
+                                    <%= product.price %>
+                                </div>
+
+
+                                <span class="stock-label">
+                                    ● Còn hàng
+                                </span>
+
+
+                            </div>
+
+
+                            <div class="product-card-actions">
+
+
+                                <a
+                                    href="/products/<%= product.id %>"
+                                    class="product-detail-button"
+                                >
+                                    Xem chi tiết
+                                </a>
+
+
+                                <form
+                                    action="/cart/add"
+                                    method="POST"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="productId"
+                                        value="<%= product.id %>"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="product-cart-button"
+                                    >
+                                        🛒
+                                    </button>
+
+                                </form>
+
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                <% }) %>
+
+            </div>
+
+
+        <% } %>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="footer-inner">
+
+        <div>
+
             <h3>
-                <a href="/products/3">Tai nghe</a>
+                TECHSTORE
             </h3>
 
-            <p>Tai nghe không dây</p>
+            <p>
+                Cửa hàng điện tử hiện đại
+            </p>
 
-            <strong>1.500.000 VNĐ</strong>
+        </div>
+
+
+        <div>
+
+            <strong>
+                Sản phẩm
+            </strong>
+
+            <p>
+                Điện thoại • Laptop • Tai nghe
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                Hỗ trợ
+            </strong>
+
+            <p>
+                Giao hàng nhanh • Thanh toán an toàn
+            </p>
+
         </div>
 
     </div>
 
-</main>
-
-<footer>
-    <p>Website bán hàng điện tử</p>
 </footer>
 
+
 </body>
+
 </html>

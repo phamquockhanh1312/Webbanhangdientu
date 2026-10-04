@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử đơn hàng</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>WEBSITE BÁN HÀNG ĐIỆN TỬ</h1>
+
+    <nav>
+        <a href="/">Trang chủ</a>
+        <a href="/products">Sản phẩm</a>
+        <a href="/cart">Giỏ hàng</a>
+
+        <% if (sessionUser) { %>
+            <a href="/auth/profile">Tài khoản</a>
+            <a href="/orders/history">Đơn hàng</a>
+            <a href="/auth/logout">Đăng xuất</a>
+        <% } else { %>
+            <a href="/auth/login">Đăng nhập</a>
+            <a href="/auth/register">Đăng ký</a>
+        <% } %>
+    </nav>
+</header>
+
+<main>
+
+    <section class="products">
+
+        <h2>Lịch sử đơn hàng</h2>
+
+        <% if (orders.length === 0) { %>
+
+            <div class="product">
+
+                <h3>Chưa có đơn hàng</h3>
+
+                <p>
+                    Bạn chưa đặt sản phẩm nào.
+                </p>
+
+                <br>
+
+                <a href="/products">
+                    Mua hàng ngay
+                </a>
+
+            </div>
+
+        <% } else { %>
+
+            <% orders.slice().reverse().forEach(order => { %>
+
+                <div class="product">
+
+                    <h3>
+                        Đơn hàng #<%= order.id %>
+                    </h3>
+
+                    <p>
+                        Ngày đặt:
+                        <strong>
+                            <%= order.date %>
+                        </strong>
+                    </p>
+
+                    <p>
+                        Người nhận:
+                        <strong>
+                            <%= order.name %>
+                        </strong>
+                    </p>
+
+                    <p>
+                        Số điện thoại:
+                        <strong>
+                            <%= order.phone %>
+                        </strong>
+                    </p>
+
+                    <p>
+                        Địa chỉ:
+                        <strong>
+                            <%= order.address %>
+                        </strong>
+                    </p>
+
+                    <p>
+                        Trạng thái:
+                        <strong>
+                            <%= order.status %>
+                        </strong>
+                    </p>
+
+                    <hr>
+
+                    <h4>Sản phẩm</h4>
+
+                    <% order.cart.forEach(item => { %>
+
+                        <p>
+                            <strong>
+                                <%= item.name %>
+                            </strong>
+
+                            -
+                            Số lượng:
+                            <%= item.quantity %>
+
+                            -
+
+                            <%= (item.price * item.quantity).toLocaleString("vi-VN") %> VNĐ
+                        </p>
+
+                    <% }) %>
+
+                    <br>
+
+                    <h3>
+                        Tổng tiền:
+                        <strong>
+                            <%= order.total.toLocaleString("vi-VN") %> VNĐ
+                        </strong>
+                    </h3>
+
+                </div>
+
+                <br>
+
+            <% }) %>
+
+        <% } %>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>Website bán hàng điện tử</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài khoản</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>WEBSITE BÁN HÀNG ĐIỆN TỬ</h1>
+
+    <nav>
+        <a href="/">Trang chủ</a>
+        <a href="/products">Sản phẩm</a>
+        <a href="/cart">Giỏ hàng</a>
+        <a href="/orders/history">Đơn hàng</a>
+        <a href="/auth/logout">Đăng xuất</a>
+    </nav>
+</header>
+
+<main>
+
+    <div class="auth-container">
+
+        <h2>Thông tin tài khoản</h2>
+
+        <p>
+            <strong>Họ và tên:</strong>
+            <%= user.name %>
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            <%= user.email %>
+        </p>
+
+        <br>
+
+        <a href="/orders/history">
+            Xem lịch sử đơn hàng
+        </a>
+
+        <br><br>
+
+        <a href="/auth/logout">
+            Đăng xuất
+        </a>
+
+    </div>
+
+</main>
+
+<footer>
+    <p>Website bán hàng điện tử</p>
+</footer>
+
+</body>
+</html>

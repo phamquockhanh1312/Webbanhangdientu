@@ -25,8 +25,11 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-    res.render("home");
+    res.render("home", {
+        sessionUser: req.session.user
+    });
 });
+
 
 app.use("/products", productRoutes);
 app.use("/auth", authRoutes);
