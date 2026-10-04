@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm sản phẩm</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>WEBSITE BÁN HÀNG ĐIỆN TỬ</h1>
+
+    <nav>
+        <a href="/">Trang chủ</a>
+        <a href="/products">Sản phẩm</a>
+        <a href="#">Giỏ hàng</a>
+        <a href="#">Đăng nhập</a>
+    </nav>
+</header>
+
+<main>
+
+    <h2>Kết quả tìm kiếm</h2>
+
+    <form action="/products/search" method="GET">
+        <input
+            type="text"
+            name="keyword"
+            value="<%= keyword %>"
+            placeholder="Nhập tên sản phẩm..."
+            required
+        >
+
+        <button type="submit">Tìm kiếm</button>
+    </form>
+
+    <p>
+        Kết quả cho:
+        <strong><%= keyword %></strong>
+    </p>
+
+    <% if (products.length === 0) { %>
+
+        <p>Không tìm thấy sản phẩm.</p>
+
+    <% } else { %>
+
+        <div class="product-list">
+
+            <% products.forEach(product => { %>
+
+                <div class="product">
+
+                    <div class="product-image">
+                        Hình sản phẩm
+                    </div>
+
+                    <h3>
+                        <a href="/products/<%= product.id %>">
+                            <%= product.name %>
+                        </a>
+                    </h3>
+
+                    <p>
+                        <%= product.description %>
+                    </p>
+
+                    <strong>
+                        <%= product.price %>
+                    </strong>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+    <% } %>
+
+</main>
+
+<footer>
+    <p>Website bán hàng điện tử</p>
+</footer>
+
+</body>
+</html>
