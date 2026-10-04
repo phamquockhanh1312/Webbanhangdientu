@@ -1,0 +1,51 @@
+const express = require("express");
+
+const router = express.Router();
+
+const users = [];
+
+router.get("/register", (req, res) => {
+    res.render("auth/register");
+});
+
+router.post("/register", (req, res) => {
+    const { name, email, password, confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+        return res.send("Mật khẩu nhập lại không đúng");
+    }
+
+    const userExists = users.find(user => user.email === email);
+
+    if (userExists) {
+        return res.send("Email đã được đăng ký");
+    }
+
+    users.push({
+        name: name,
+        email: email,
+        password: password
+    });
+
+    res.redirect("/auth/login");
+});
+
+router.get("/login", (req, res) => {
+    res.render("auth/login");
+});
+
+router.post("/login", (req, res) => {
+    const { email, password } = req.body;
+
+    const user = users.find(
+        user => user.email === email && user.password === password
+    );
+
+    if (!user) {
+        return res.send("Email hoặc mật khẩu không đúng");
+    }
+
+    res.send(`Đăng nhập thành công. Xin chào ${user.name}`);
+});
+
+module.exports = router;

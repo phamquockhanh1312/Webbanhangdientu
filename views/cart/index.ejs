@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>WEBSITE BÁN HÀNG ĐIỆN TỬ</h1>
+
+    <nav>
+        <a href="/">Trang chủ</a>
+        <a href="/products">Sản phẩm</a>
+        <a href="/cart">Giỏ hàng</a>
+        <a href="/auth/login">Đăng nhập</a>
+    </nav>
+</header>
+
+<main>
+
+    <h2>Giỏ hàng</h2>
+
+    <% if (cart.length === 0) { %>
+
+        <p>Giỏ hàng đang trống.</p>
+
+        <a href="/products">
+            Tiếp tục mua hàng
+        </a>
+
+    <% } else { %>
+
+        <% cart.forEach(item => { %>
+
+            <div class="product">
+
+                <h3>
+                    <%= item.name %>
+                </h3>
+
+                <p>
+                    Đơn giá:
+                    <strong>
+                        <%= item.price.toLocaleString("vi-VN") %> VNĐ
+                    </strong>
+                </p>
+
+                <p>
+                    Số lượng:
+                    <strong><%= item.quantity %></strong>
+                </p>
+
+                <form action="/cart/decrease/<%= item.id %>" method="POST" style="display:inline;">
+                    <button type="submit">−</button>
+                </form>
+
+                <form action="/cart/increase/<%= item.id %>" method="POST" style="display:inline;">
+                    <button type="submit">+</button>
+                </form>
+
+                <form action="/cart/remove/<%= item.id %>" method="POST">
+                    <button type="submit">
+                        Xóa sản phẩm
+                    </button>
+                </form>
+
+            </div>
+
+        <% }) %>
+
+        <h2>
+            Tổng tiền:
+            <strong>
+                <%= total.toLocaleString("vi-VN") %> VNĐ
+            </strong>
+        </h2>
+
+        <a href="/products">
+            Tiếp tục mua hàng
+        </a>
+
+    <% } %>
+
+</main>
+
+<footer>
+    <p>Website bán hàng điện tử</p>
+</footer>
+
+</body>
+</html>
